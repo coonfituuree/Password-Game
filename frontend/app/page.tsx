@@ -5,7 +5,7 @@ import Main from "@/components/Main";
 import { useAuth } from "@/hooks/useAuth";
 
 const Page = () => {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
 
   if (!user) {
     return (
