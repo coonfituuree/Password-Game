@@ -6,7 +6,7 @@ async function bootstrap() {
 
   // Для фронта (например Next.js) разрешим CORS
   app.enableCors({
-    origin: 'https://password-game-navy.vercel.app/', // лучше потом заменить на свой домен
+    origin: 'https://courageous-renewal-production-a54c.up.railway.app/', // лучше потом заменить на свой домен
     credentials: true,
   });
 
