@@ -1,14 +1,17 @@
 import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
 import { TelegramAuthService } from './telegram-auth.service';
+import { User } from '@prisma/client';
 
 @Controller('telegram')
 export class TelegramController {
   constructor(private readonly authService: TelegramAuthService) {}
 
   @Post('login')
-  async login(@Body() body: { initData: string }) {
+  async login(
+    @Body() body: { initData: string },
+  ): Promise<{ success: boolean; token: string; user: User }> {
     const result = this.authService.validate(body.initData);
-    if (!result.ok) {
+    if (!result.ok || !result.user) {
       throw new UnauthorizedException('Invalid Telegram auth data');
     }
 

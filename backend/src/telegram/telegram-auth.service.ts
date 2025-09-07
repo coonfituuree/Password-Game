@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { PrismaService } from '../prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { TelegramUserData, JwtPayload } from '../types/auth';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class TelegramAuthService {
@@ -12,7 +14,7 @@ export class TelegramAuthService {
     private jwtService: JwtService,
   ) {}
 
-  validate(initData: string): { ok: boolean; user?: any } {
+  validate(initData: string): { ok: boolean; user?: TelegramUserData } {
     const urlParams = new URLSearchParams(initData);
     const hash = urlParams.get('hash');
     urlParams.delete('hash');
@@ -36,11 +38,11 @@ export class TelegramAuthService {
       return { ok: false };
     }
 
-    const user = JSON.parse(urlParams.get('user') || '{}');
+    const user = JSON.parse(urlParams.get('user') || '{}') as TelegramUserData;
     return { ok: true, user };
   }
 
-  async findOrCreateUser(userData: any) {
+  async findOrCreateUser(userData: TelegramUserData): Promise<User> {
     let user = await this.prisma.user.findUnique({
       where: { telegramId: userData.id },
     });
@@ -60,10 +62,11 @@ export class TelegramAuthService {
     return user;
   }
 
-  generateToken(user: any) {
-    return this.jwtService.sign({
+  generateToken(user: User): string {
+    const payload: JwtPayload = {
       sub: user.id,
       telegramId: user.telegramId,
-    });
+    };
+    return this.jwtService.sign(payload);
   }
 }
