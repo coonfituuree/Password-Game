@@ -19,13 +19,18 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  // Базовый URL API (Railway или локалка)
+  const API_URL =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
   useEffect(() => {
-    // без any: создаем типизированный доступ к Telegram
-    const tg: TelegramWebApp | undefined = (window as unknown as { Telegram?: { WebApp?: TelegramWebApp } }).Telegram?.WebApp;
+    const tg: TelegramWebApp | undefined = (
+      window as unknown as { Telegram?: { WebApp?: TelegramWebApp } }
+    ).Telegram?.WebApp;
 
     if (!tg?.initData) return;
 
-    fetch("http://localhost:3000/telegram/login", {
+    fetch(`${API_URL}/telegram/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ initData: tg.initData }),
@@ -41,7 +46,7 @@ export const useAuth = () => {
         }
       })
       .catch((err) => console.error("Fetch error:", err));
-  }, []);
+  }, [API_URL]);
 
   return { user, token };
 };
