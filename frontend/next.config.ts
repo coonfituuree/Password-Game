@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    // @ts-expect-error: turbopack не типизирован в Next.js
+    turbopack: {
+      root: __dirname,
+    },
+  },
 };
 
 export default nextConfig;
