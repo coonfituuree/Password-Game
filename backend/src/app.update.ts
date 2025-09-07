@@ -11,7 +11,9 @@ export class AppUpdate {
           [
             {
               text: '▶ Играть',
-              web_app: { url: 'https://password-game-navy.vercel.app/' }, // тут ссылка на твой фронтенд
+              web_app: {
+                url: 'https://courageous-renewal-production-a54c.up.railway.app/',
+              }, // тут ссылка на твой фронтенд
             },
           ],
         ],
