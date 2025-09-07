@@ -5,22 +5,19 @@ import { Context } from 'telegraf';
 export class AppUpdate {
   @Start()
   async startCommand(@Ctx() ctx: Context) {
-    await ctx.reply(
-      'Привет! 👋 Жми кнопку ниже, чтобы запустить игру',
-      {
-        reply_markup: {
-          keyboard: [
-            [
-              {
-                text: '▶ Играть',
-                web_app: { url: 'https://weak-teams-design.loca.lt' }, // тут ссылка на твой фронтенд
-              },
-            ],
+    await ctx.reply('Привет! 👋 Жми кнопку ниже, чтобы запустить игру', {
+      reply_markup: {
+        keyboard: [
+          [
+            {
+              text: '▶ Играть',
+              web_app: { url: 'https://password-game-navy.vercel.app/' }, // тут ссылка на твой фронтенд
+            },
           ],
-          resize_keyboard: true,
-        },
+        ],
+        resize_keyboard: true,
       },
-    );
+    });
   }
 
   @Help()
